@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./editing_style.css">
+    <title>Image Editing Application</title>
+</head>
+<body>
+    <div class="container">
+        <div class="navigation">
+            <h1>Brush Over <span>Pixels</span></h1>
+        </div>
+        <div class="para">
+            <p style="font-size: 24px; padding: 40px 0; text-align: left;"><i>Dive in the world of image editing. Enhance your lovaly pictures with this editing tool! Turn your clicked moments into extraordinary masterpieces...</i></p>
+        </div>
+        <div class="upload">
+            <form action="">
+                <input type="file" id="image_input" class="image_input" accept="image/*" onchange="displayImage()">
+            </form>
+        </div>
+        <div id="image"></div>
+        <div class="options">
+            <div class="all_slider">
+                <div class="slider-container" id="brightness-slider-container">
+                    <input type="range" min="0" max="200" value="100" class="slider" id="brightness-slider" onchange="applyFilter('brightness-slider')">
+                </div>
+                <div class="slider-container" id="contrast-slider-container">
+                    <input type="range" min="0" max="200" value="100" class="slider" id="contrast-slider" onchange="applyFilter('contrast-slider')">
+                </div>
+                <div class="slider-container" id="saturate-slider-container">
+                    <input type="range" min="0" max="200" value="100" class="slider" id="saturate-slider" onchange="applyFilter('saturate-slider')">
+                </div>
+                <div class="slider-container" id="grayscale-slider-container">
+                    <input type="range" min="0" max="100" value="0" class="slider" id="grayscale-slider" onchange="applyFilter('grayscale-slider')">
+                </div>
+                <div class="slider-container" id="invert-slider-container">
+                    <input type="range" min="0" max="100" value="0" class="slider" id="invert-slider" onchange="applyFilter('invert-slider')">
+                </div>
+            </div>
+            
+            <table class="filters">
+                <tr>
+                    <td onclick="toggleSlider('brightness-slider')">Brightness</td>
+                    <td onclick="toggleSlider('contrast-slider')">Contrast</td>
+                    <td onclick="toggleSlider('saturate-slider')">Saturate</td>
+                    <td onclick="toggleSlider('grayscale-slider')">Grayscale</td>
+                    <td onclick="toggleSlider('invert-slider')">Invert</td>
+                </tr>
+            </table>
+            <p style="font-size: 24px; padding: 40px 0; text-align: center;"><i>Dive in the world of image editing. Enhance your lovaly pictures with this editing tool! Turn your clicked moments into extraordinary masterpieces...</i></p>
+
+        </div>
+        <div class="btns">
+            <button onclick="downloadImage()">Download Image</button>
+            <button onclick="clearFilters()">Clear Filters</button>
+            <button onclick="removeImage()">Remove Image</button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('click', function (event) {
+            const sliderContainers = document.querySelectorAll('.slider-container');
+            const filterRows = document.querySelectorAll('.filters td');
+
+            // Check if the click is outside the sliders and filter rows
+            if (!event.target.closest('.slider-container') && !event.target.closest('.filters td')) {
+                sliderContainers.forEach(container => {
+                    container.style.display = 'none';
+                });
+            }
+        });
+
+        let appliedFilters = {};
+
+        function toggleSlider(sliderId) {
+            const sliderContainer = document.getElementById(sliderId + '-container');
+            const allSliderContainers = document.querySelectorAll('.slider-container');
+
+            allSliderContainers.forEach(container => {
+                if (container !== sliderContainer) {
+                    container.style.display = 'none';
+                }
+            });
+
+            sliderContainer.style.display = sliderContainer.style.display === 'none' ? 'block' : 'none';
+        }
+
+        function applyFilter(sliderId) {
+            const slider = document.getElementById(sliderId);
+            const filterName = sliderId.split('-')[0];
+
+            // Update the appliedFilters object
+            appliedFilters[filterName] = `${filterName}(${slider.value}%)`;
+
+            // Combine all applied filters and apply to the image
+            const filterValues = Object.values(appliedFilters).join(' ');
+            document.getElementById('image').style.filter = filterValues;
+        }
+
+        function displayImage() {
+            const input = document.getElementById('image_input');
+            const container = document.getElementById('image');
+            
+            // Ensure a file is selected
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+
+                reader.onload = function (e) {
+                    const img = document.createElement('img');
+                    img.src = e.target.result;
+
+                    // Clear previous content
+                    container.innerHTML = '';
+
+                    // Append the new image
+                    container.appendChild(img);
+                };
+
+                // Read the selected file as a data URL
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        function downloadImage() {
+            const imageContainer = document.getElementById('image');
+            const image = imageContainer.querySelector('img');
+
+            if (image) {
+                const link = document.createElement('a');
+                link.href = image.src;
+                link.download = 'edited_image.png';
+                link.click();
+            }
+        }
+
+        function clearFilters() {
+            appliedFilters = {};
+            document.getElementById('image').style.filter = '';
+            resetSliders();
+        }
+
+        function removeImage() {
+            document.getElementById('image').innerHTML = '';
+            clearFilters();
+        }
+
+        function resetSliders() {
+            const sliders = document.querySelectorAll('.slider');
+            sliders.forEach(slider => {
+                slider.value = 0;
+            });
+        }
+    </script>
+</body>
+</html>

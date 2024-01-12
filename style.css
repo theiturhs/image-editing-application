@@ -1,0 +1,49 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap');
+
+body{
+    font-family: 'Cormorant', serif;
+    display: flex; flex-direction: column; align-items: center;
+    justify-content: center; height: 100vh; user-select: none;
+    background: linear-gradient(0, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.8)), url('./headphones-338492_1280.jpg');
+    background-position: center; background-repeat: no-repeat; background-size: cover;
+    overflow-y: hidden;
+}
+.container{
+    width: 80vw; text-align: center;
+    display: flex; flex-direction: column;
+    justify-content: center; align-items: center;
+}
+a{
+    text-decoration: none; color: white; font-family: 'Cormorant', serif;
+    font-size: 20px; font-weight: 700;
+}
+button{
+    cursor: pointer; width: 300px; height: 50px;
+    background-color: #eb0d7c; border: none;
+    margin-top: 10px;
+}
+.main h1{
+    color: #eb0d7c;
+}
+.main h1 span{
+    color: #0dc0e3;
+}
+
+button:hover{
+    background-color: black;
+}
+p{
+    font-weight: 500;
+}
+.main h1{
+    font-size: 70px;
+}
+
+@media only screen and (max-width: 700px){
+    body{
+        min-height: 100vh; overflow-y: scroll;
+    }
+    .main h1{
+        font-size: 50px;
+    }
+}
