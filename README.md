@@ -32,4 +32,8 @@ Welcome to the **Image Editing Application**, a web-based tool that allows you t
 
 5. **Remove Image:** Easily remove the uploaded image and reset the application.
 
+## Image source and Color reference
 
+- Visit [Pixabay](https://pixabay.com/) for a vast collection of high-quality images.
+
+- Visit [Coolors](https://coolors.co/palettes/trending) for a vast color schemes
